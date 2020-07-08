@@ -298,10 +298,14 @@ function outputOptions($mode){
   // FONCTIONS //
 
   function firstFolderSprite($options){
+    $ImagesDir = __DIR__.'/images';
+
     if ($handle = opendir(__DIR__.'/images')) {
       while (false !== ($entry = readdir($handle))) {
         if ($entry != "." && $entry != "..") {
-          $MimeType = mime_content_type($entry)
+          $PathInDir = $ImagesDir."/".$entry;
+          $MimeType = mime_content_type($PathInDir);
+          echo $MimeType."\n\n";
           }
       }
       closedir($handle);
