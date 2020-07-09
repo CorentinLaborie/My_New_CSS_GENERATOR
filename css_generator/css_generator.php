@@ -4,7 +4,7 @@ function CssGenerator()
 {
   // READLINE //
     // TEXTE //
-    $FirstReadline = "Bonjour ! Quel système préférez vous ?"."{-n/-normal pour cibler '"."./images'"."-r/-recursive pour cibler tout les dossiers dans '"."./images'} : ";
+    $FirstReadline = "Bonjour ! Quel système préférez vous ?"."{ -n/-normal } pour cibler '"."./images'".", { -r/-recursive } pour cibler tout les dossiers dans '"."./images'} : ";
     $FirstReadlineError = "Je n'ai pas bien compris.. Veuillez répéter !\n";
     // LOGIC //
     $SoftwareType= readline($FirstReadline);
@@ -25,15 +25,11 @@ function outputOptions($mode){
   $ImageNameAsk = readline("Renommer le sprite final ? Le nom par defaut sera 'My_New_Sprite'. (Y/N) : ");
   $StylesheetNameAsk = readline("Renommer le CSS final ? Le nom par defaut sera 'style.css'. (Y/N) : ");
   $PaddingAsk = readline("Souhaitez-vous un espace entre les images ? (Y/n) : ");
-  $SizeAsk = readline("Souhaitez-vous redimensionner les images ? (Y/n)");
-  $AxeXAsk = readline("Configurer le nombre d'image par ligne ? (Y/n)");
 
   $AskAnswer = array(
     "Image" => 0,
     "Stylesheet" => 0,
     "Padding" => 0,
-    "Size" => 0,
-    "AxeX" => 0,
   );
   // LOGIC ASK //
     if ($ImageNameAsk === "Y" || $ImageNameAsk === "y")
@@ -46,6 +42,7 @@ function outputOptions($mode){
     }
     else{
       echo "Je n'ai pas bien compris.. Veuillez recommencer !";
+      return;
     }
     if ($StylesheetNameAsk === "Y" || $StylesheetNameAsk === "y")
     {
@@ -57,6 +54,8 @@ function outputOptions($mode){
     }
     else{
       echo "Je n'ai pas bien compris.. Veuillez recommencer !";
+      return;
+
     }
     if ($PaddingAsk === "Y" || $PaddingAsk === "y")
     {
@@ -68,252 +67,546 @@ function outputOptions($mode){
     }
     else{
       echo "Je n'ai pas bien compris.. Veuillez recommencer !";
-    }
-    if ($SizeAsk === "Y" || $SizeAsk === "y")
-    {
-      $AskAnswer["Size"] = 1;
-    }
-    elseif ($SizeAsk === "N" || $SizeAsk === "n")
-    {
-      $AskAnswer["Size"] = 0;
-    }
-    else{
-      echo "Je n'ai pas bien compris.. Veuillez recommencer !";
-    }
-    if ($AxeXAsk === "Y" || $AxeXAsk === "y")
-    {
-      $AskAnswer["AxeX"] = 1;
-    }
-    elseif ($AxeXAsk === "N" || $AxeXAsk === "n")
-    {
-      $AskAnswer["AxeX"] = 0;
-    }
-    else{
-      echo "Je n'ai pas bien compris.. Veuillez recommencer !";
-    }
-  // SETTING OPTIONS //
+      return;
 
-      if ($AskAnswer === array("Image" => 0, "Stylesheet" => 0, "Padding" => 0,"Size" => 0,"AxeX" => 0))
-      {
-        $options = (array("Image" => "My_New_Sprite" , "Stylesheet" => "style.css", "Padding" => null, "Size" => null, "AxeX" => null));
-      }
+    }
 
-      elseif ($AskAnswer === array("Image" => 1, "Stylesheet" => 0, "Padding" => 0,"Size" => 0,"AxeX" => 0))
-      {
-        $WhichImageName = readline("Quel sera le nom de ton sprite ? : ");
-        $options = (array("Image" => $WhichImageName , "Stylesheet" => "style.css", "Padding" => null, "Size" => null, "AxeX" => null));
-      }
-      elseif ($AskAnswer === array("Image" => 0, "Stylesheet" => 1, "Padding" => 0,"Size" => 0,"AxeX" => 0))
-      {
-        $WhichStyleName = readline("Quel sera le nom de ton CSS ? : ");
-        $options = (array("Image" => "My_New_Sprite" , "Stylesheet" => $WhichStyleName, "Padding" => null, "Size" => null, "AxeX" => null));
-      }
-      elseif ($AskAnswer === array("Image" => 0, "Stylesheet" => 0, "Padding" => 1,"Size" => 0,"AxeX" => 0))
-      {
-        $WhichPadding = readline("Quel padding entre chaque image ? (en PX) : ");
-        $options = (array("Image" => "My_New_Sprite" , "Stylesheet" => "style.css", "Padding" => intval($WhichPadding), "Size" => null, "AxeX" => null));
-      }
-      elseif ($AskAnswer === array("Image" => 0, "Stylesheet" => 0, "Padding" => 0,"Size" => 1,"AxeX" => 0))
-      {
-        $WhichSize = readline("Quelle taille pour les images ? (Format PX/PX) : ");
-        $options = (array("Image" => "My_New_Sprite" , "Stylesheet" => "style.css", "Padding" => null, "Size" => intval($WhichSize), "AxeX" => null));
-      }
-      elseif ($AskAnswer === array("Image" => 0, "Stylesheet" => 0, "Padding" => 0,"Size" => 0,"AxeX" => 1))
-      {
-        $WhichAxeX = readline("Combien d'images par lignes ? (Nombre) : ");
-        $options = (array("Image" => "My_New_Sprite" , "Stylesheet" => "style.css", "Padding" => null, "Size" => null, "AxeX" => intval($WhichAxeX)));
-      }
+    // SETTING OPTIONS //
+    if ($AskAnswer === array("Image" => 0, "Stylesheet" => 0, "Padding" => 0))
+    {
+      $options = (array("Image" => "My_New_Sprite" , "Stylesheet" => "style", "Padding" => null));
+    }
 
-      elseif ($AskAnswer === array("Image" => 1, "Stylesheet" => 1, "Padding" => 0,"Size" => 0,"AxeX" => 0))
-      {
-        $WhichImageName = readline("Quel sera le nom de ton sprite ? : ");
-        $WhichStyleName = readline("Quel sera le nom de ton CSS ? : ");
-        $options = (array("Image" => $WhichImageName , "Stylesheet" => $WhichStyleName, "Padding" => null, "Size" => null, "AxeX" => null));
-      }
-      elseif ($AskAnswer === array("Image" => 1, "Stylesheet" => 0, "Padding" => 1,"Size" => 0,"AxeX" => 0))
-      {
-        $WhichImageName = readline("Quel sera le nom de ton sprite ? : ");
-        $WhichPadding = readline("Quel padding entre chaque image ? (en PX) : ");
-        $options = (array("Image" => $WhichImageName , "Stylesheet" => "style.css", "Padding" => intval($WhichPadding), "Size" => null, "AxeX" => null));
-      }
-      elseif ($AskAnswer === array("Image" => 1, "Stylesheet" => 0, "Padding" => 0,"Size" => 1,"AxeX" => 0))
-      {
-        $WhichImageName = readline("Quel sera le nom de ton sprite ? : ");
-        $WhichSize = readline("Quelle taille pour les images ? (Format PX/PX) : ");
-        $options = (array("Image" => $WhichImageName , "Stylesheet" => "style.css", "Padding" => null, "Size" => intval($WhichSize), "AxeX" => null));
-      }
-      elseif ($AskAnswer === array("Image" => 1, "Stylesheet" => 0, "Padding" => 0,"Size" => 0,"AxeX" => 1))
-      {
-        $WhichImageName = readline("Quel sera le nom de ton sprite ? : ");
-        $WhichAxeX = readline("Combien d'images par lignes ? (Nombre) : ");
-        $options = (array("Image" => $WhichImageName , "Stylesheet" => "style.css", "Padding" => null, "Size" => null, "AxeX" => intval($WhichAxeX)));
-      }
-      elseif ($AskAnswer === array("Image" => 0, "Stylesheet" => 1, "Padding" => 1,"Size" => 0,"AxeX" => 0))
-      {
-        $WhichStyleName = readline("Quel sera le nom de ton CSS ? : ");
-        $WhichPadding = readline("Quel padding entre chaque image ? (en PX) : ");
-        $options = (array("Image" => "My_New_Sprite" , "Stylesheet" => intval($WhichStyleName), "Padding" => intval($WhichPadding), "Size" => null, "AxeX" => null));
-      }
-      elseif ($AskAnswer === array("Image" => 0, "Stylesheet" => 1, "Padding" => 0,"Size" => 1,"AxeX" => 0))
-      {
-        $WhichStyleName = readline("Quel sera le nom de ton CSS ? : ");
-        $WhichSize = readline("Quelle taille pour les images ? (Format PX/PX) : ");
-        $options = (array("Image" => "My_New_Sprite" , "Stylesheet" => intval($WhichStyleName), "Padding" => null, "Size" => intval($WhichSize), "AxeX" => null));
-      }
-      elseif ($AskAnswer === array("Image" => 0, "Stylesheet" => 1, "Padding" => 0,"Size" => 0,"AxeX" => 1))
-      {
-        $WhichStyleName = readline("Quel sera le nom de ton CSS ? : ");
-        $WhichAxeX = readline("Combien d'images par lignes ? (Nombre) : ");
-        $options = (array("Image" => "My_New_Sprite" , "Stylesheet" => intval($WhichStyleName), "Padding" => null, "Size" => null, "AxeX" => intval($WhichAxeX)));
-      }
-      elseif ($AskAnswer === array("Image" => 0, "Stylesheet" => 0, "Padding" => 1,"Size" => 1,"AxeX" => 0))
-      {
-        $WhichPadding = readline("Quel padding entre chaque image ? (en PX) : ");
-        $WhichSize = readline("Quelle taille pour les images ? (Format PX/PX) : ");
-        $options = (array("Image" => "My_New_Sprite`" , "Stylesheet" => "style.css", "Padding" => intval($WhichPadding), "Size" => intval($WhichSize), "AxeX" => null));
-      }
-      elseif ($AskAnswer === array("Image" => 0, "Stylesheet" => 0, "Padding" => 1,"Size" => 0,"AxeX" => 1))
-      {
-        $WhichPadding = readline("Quel padding entre chaque image ? (en PX) : ");
-        $WhichAxeX = readline("Combien d'images par lignes ? (Nombre) : ");
-        $options = (array("Image" => "My_New_Sprite`" , "Stylesheet" => "style.css", "Padding" => intval($WhichPadding), "Size" => null, "AxeX" => intval($WhichAxeX)));
-      }
-      elseif ($AskAnswer === array("Image" => 0, "Stylesheet" => 0, "Padding" => 0,"Size" => 1,"AxeX" => 1))
-      {
-        $WhichSize = readline("Quelle taille pour les images ? (Format PX/PX) : ");
-        $WhichAxeX = readline("Combien d'images par lignes ? (Nombre) : ");
-        $options = (array("Image" => "My_New_Sprite`" , "Stylesheet" => "style.css", "Padding" => null, "Size" => intval($WhichSize), "AxeX" => intval($WhichAxeX)));
-      }
+    elseif ($AskAnswer === array("Image" => 1, "Stylesheet" => 0, "Padding" => 0))
+    {
+      $WhichImageName = readline("Quel sera le nom de ton sprite ? : ");
+      $options = (array("Image" => $WhichImageName , "Stylesheet" => "style", "Padding" => null));
+    }
+    elseif ($AskAnswer === array("Image" => 0, "Stylesheet" => 1, "Padding" => 0))
+    {
+      $WhichStyleName = readline("Quel sera le nom de ton CSS ? : ");
+      $options = (array("Image" => "My_New_Sprite" , "Stylesheet" => $WhichStyleName, "Padding" => null));
+    }
+    elseif ($AskAnswer === array("Image" => 0, "Stylesheet" => 0, "Padding" => 1))
+    {
+      $WhichPadding = readline("Quel padding entre chaque image ? (en PX) : ");
+      $options = (array("Image" => "My_New_Sprite" , "Stylesheet" => "style", "Padding" => intval($WhichPadding)));
+    }
+    
+
+    elseif ($AskAnswer === array("Image" => 1, "Stylesheet" => 1, "Padding" => 0))
+    {
+      $WhichImageName = readline("Quel sera le nom de ton sprite ? : ");
+      $WhichStyleName = readline("Quel sera le nom de ton CSS ? : ");
+      $options = (array("Image" => $WhichImageName , "Stylesheet" => $WhichStyleName, "Padding" => null));
+    }
+    elseif ($AskAnswer === array("Image" => 1, "Stylesheet" => 0, "Padding" => 1))
+    {
+      $WhichImageName = readline("Quel sera le nom de ton sprite ? : ");
+      $WhichPadding = readline("Quel padding entre chaque image ? (en PX) : ");
+      $options = (array("Image" => $WhichImageName , "Stylesheet" => "style", "Padding" => intval($WhichPadding)));
+    }
+    elseif ($AskAnswer === array("Image" => 0, "Stylesheet" => 1, "Padding" => 1))
+    {
+      $WhichStyleName = readline("Quel sera le nom de ton CSS ? : ");
+      $WhichPadding = readline("Quel padding entre chaque image ? (en PX) : ");
+      $options = (array("Image" => "My_New_Sprite" , "Stylesheet" => intval($WhichStyleName), "Padding" => intval($WhichPadding)));
+    }
       
-
-      elseif ($AskAnswer === array("Image" => 1, "Stylesheet" => 1, "Padding" => 1,"Size" => 0,"AxeX" => 0))
-      {
-        $WhichImageName = readline("Quel sera le nom de ton sprite ? : ");
-        $WhichStyleName = readline("Quel sera le nom de ton CSS ? : ");
-        $WhichPadding = readline("Quel padding entre chaque image ? (en PX) : ");
-        $options = (array("Image" => $WhichImageName , "Stylesheet" => $WhichStyleName, "Padding" => intval($WhichPadding), "Size" => null, "AxeX" => null));
-      }
-      elseif ($AskAnswer === array("Image" => 1, "Stylesheet" => 1, "Padding" => 0,"Size" => 1,"AxeX" => 0))
-      {
-        $WhichImageName = readline("Quel sera le nom de ton sprite ? : ");
-        $WhichStyleName = readline("Quel sera le nom de ton CSS ? : ");
-        $WhichSize = readline("Quelle taille pour les images ? (Format PX/PX) : ");
-        $options = (array("Image" => $WhichImageName , "Stylesheet" => $WhichStyleName, "Padding" => null, "Size" => intval($WhichSize), "AxeX" => null));
-      }
-      elseif ($AskAnswer === array("Image" => 1, "Stylesheet" => 1, "Padding" => 0,"Size" => 0,"AxeX" => 1))
-      {
-        $WhichImageName = readline("Quel sera le nom de ton sprite ? : ");
-        $WhichStyleName = readline("Quel sera le nom de ton CSS ? : ");
-        $WhichAxeX = readline("Combien d'images par lignes ? (Nombre) : ");
-        $options = (array("Image" => $WhichImageName , "Stylesheet" => $WhichStyleName, "Padding" => null, "Size" => null, "AxeX" => intval($WhichAxeX)));
-      }
-      elseif ($AskAnswer === array("Image" => 0, "Stylesheet" => 1, "Padding" => 1,"Size" => 1,"AxeX" => 0))
-      {
-        $WhichStyleName = readline("Quel sera le nom de ton CSS ? : ");
-        $WhichPadding = readline("Quel padding entre chaque image ? (en PX) : ");
-        $WhichSize = readline("Quelle taille pour les images ? (Format PX/PX) : ");
-        $options = (array("Image" => "My_New_Sprite" , "Stylesheet" => $WhichStyleName, "Padding" => intval($WhichPadding), "Size" => intval($WhichSize), "AxeX" => null));
-      }
-      elseif ($AskAnswer === array("Image" => 0, "Stylesheet" => 1, "Padding" => 1,"Size" => 0,"AxeX" => 1))
-      {
-        $WhichStyleName = readline("Quel sera le nom de ton CSS ? : ");
-        $WhichPadding = readline("Quel padding entre chaque image ? (en PX) : ");
-        $WhichAxeX = readline("Combien d'images par lignes ? (Nombre) : ");
-        $options = (array("Image" => "My_New_Sprite" , "Stylesheet" => $WhichStyleName, "Padding" => intval($WhichPadding), "Size" => null, "AxeX" => intval($WhichAxeX)));
-      }
-      elseif ($AskAnswer === array("Image" => 0, "Stylesheet" => 0, "Padding" => 1,"Size" => 1,"AxeX" => 1))
-      {
-        $WhichPadding = readline("Quel padding entre chaque image ? (en PX) : ");
-        $WhichSize = readline("Quelle taille pour les images ? (Format PX/PX) : ");
-        $WhichAxeX = readline("Combien d'images par lignes ? (Nombre) : ");
-        $options = (array("Image" => "My_New_Sprite" , "Stylesheet" => "style.css", "Padding" => intval($WhichPadding), "Size" => intval($WhichSize), "AxeX" => intval($WhichAxeX)));
-      }
-
-      elseif ($AskAnswer === array("Image" => 0, "Stylesheet" => 1, "Padding" => 1,"Size" => 1,"AxeX" => 1))
-      {
-        $WhichImageName = readline("Quel sera le nom de ton sprite ? : ");
-        $WhichStyleName = readline("Quel sera le nom de ton CSS ? : ");
-        $WhichPadding = readline("Quel padding entre chaque image ? (en PX) : ");
-        $WhichSize = readline("Quelle taille pour les images ? (Format PX/PX) : ");
-        $WhichAxeX = readline("Combien d'images par lignes ? (Nombre) : ");
-        $options = (array("Image" => "My_New_Sprite" , "Stylesheet" => $WhichStyleName, "Padding" => intval($WhichPadding), "Size" => intval($WhichSize), "AxeX" => intval($WhichAxeX)));
-      }
-      elseif ($AskAnswer === array("Image" => 1, "Stylesheet" => 0, "Padding" => 1,"Size" => 1,"AxeX" => 1))
-      {
-        $WhichImageName = readline("Quel sera le nom de ton sprite ? : ");
-        $WhichPadding = readline("Quel padding entre chaque image ? (en PX) : ");
-        $WhichSize = readline("Quelle taille pour les images ? (Format PX/PX) : ");
-        $WhichAxeX = readline("Combien d'images par lignes ? (Nombre) : ");
-        $options = (array("Image" => $WhichImageName , "Stylesheet" => "style.css", "Padding" => intval($WhichPadding), "Size" => intval($WhichSize), "AxeX" => intval($WhichAxeX)));
-      }
-      elseif ($AskAnswer === array("Image" => 1, "Stylesheet" => 1, "Padding" => 0,"Size" => 1,"AxeX" => 1))
-      {
-        $WhichImageName = readline("Quel sera le nom de ton sprite ? : ");
-        $WhichStyleName = readline("Quel sera le nom de ton CSS ? : ");
-        $WhichSize = readline("Quelle taille pour les images ? (Format PX/PX) : ");
-        $WhichAxeX = readline("Combien d'images par lignes ? (Nombre) : ");
-        $options = (array("Image" => $WhichImageName , "Stylesheet" => $WhichStyleName, "Padding" => null, "Size" => intval($WhichSize), "AxeX" => intval($WhichAxeX)));
-      }
-      elseif ($AskAnswer === array("Image" => 1, "Stylesheet" => 1, "Padding" => 1,"Size" => 0,"AxeX" => 1))
-      {
-        $WhichImageName = readline("Quel sera le nom de ton sprite ? : ");
-        $WhichStyleName = readline("Quel sera le nom de ton CSS ? : ");
-        $WhichPadding = readline("Quel padding entre chaque image ? (en PX) : ");
-        $WhichAxeX = readline("Combien d'images par lignes ? (Nombre) : ");
-        $options = (array("Image" => "My_New_Sprite" , "Stylesheet" => "style.css", "Padding" => intval($WhichPadding), "Size" => null, "AxeX" => intval($WhichAxeX)));
-      }
-      elseif ($AskAnswer === array("Image" => 1, "Stylesheet" => 1, "Padding" => 1,"Size" => 1,"AxeX" => 0))
-      {
-        $WhichImageName = readline("Quel sera le nom de ton sprite ? : ");
-        $WhichStyleName = readline("Quel sera le nom de ton CSS ? : ");
-        $WhichPadding = readline("Quel padding entre chaque image ? (en PX) : ");
-        $WhichSize = readline("Quelle taille pour les images ? (Format PX/PX) : ");
-        $options = (array("Image" => "My_New_Sprite" , "Stylesheet" => "style.css", "Padding" => intval($WhichPadding), "Size" => intval($WhichSize), "AxeX" => null));
-      }
-
-      elseif ($AskAnswer === array("Image" => 1, "Stylesheet" => 1, "Padding" => 1,"Size" => 1,"AxeX" => 1))
-      {
-        $WhichImageName = readline("Quel sera le nom de ton sprite ? : ");
-        $WhichStyleName = readline("Quel sera le nom de ton CSS ? : ");
-        $WhichPadding = readline("Quel padding entre chaque image ? (en PX) : ");
-        $WhichSize = readline("Quelle taille pour les images ? (Format PX/PX) : ");
-        $WhichAxeX = readline("Combien d'images par lignes ? (Nombre) : ");
-        $options = (array("Image" => $WhichImageName , "Stylesheet" => $WhichStyleName, "Padding" => intval($WhichPadding), "Size" => intval($WhichSize), "AxeX" => intval($WhichAxeX)));
-      }
-
-      // Redirect with options //
-
-      if ($mode === "-n" || $mode === "-normal")
-      {
-        firstFolderSprite($options);
-      }
-      elseif ($mode === "-r" || $mode === "-recursive")
-      {
-        recursiveSprite($options);
-      }
-
+    elseif ($AskAnswer === array("Image" => 1, "Stylesheet" => 1, "Padding" => 1))
+    {
+      $WhichImageName = readline("Quel sera le nom de ton sprite ? : ");
+      $WhichStyleName = readline("Quel sera le nom de ton CSS ? : ");
+      $WhichPadding = readline("Quel padding entre chaque image ? (en PX) : ");
+      $options = (array("Image" => $WhichImageName , "Stylesheet" => $WhichStyleName, "Padding" => intval($WhichPadding)));
+    }
+    
+    // Redirect with options //
+    if ($mode === "-n" || $mode === "-normal")
+    {
+      firstFolderSprite($options);
+    }
+    elseif ($mode === "-r" || $mode === "-recursive")
+    {
+      recursiveSprite($options);
+    }
 };
 
 
   // FONCTIONS //
 
   function firstFolderSprite($options){
+    
+    // RECUPERER DATAS FICHIERS ET TRIER //
+    $images = [];
+    $ImagesNames = [];
     $ImagesDir = __DIR__.'/images';
-
-    if ($handle = opendir(__DIR__.'/images')) {
-      while (false !== ($entry = readdir($handle))) {
-        if ($entry != "." && $entry != "..") {
+    if ($handle = opendir(__DIR__.'/images'))
+    {
+      while (false !== ($entry = readdir($handle)))
+      {
+        if ($entry != "." && $entry != "..") 
+        {
+          // GET PATH //
           $PathInDir = $ImagesDir."/".$entry;
           $MimeType = mime_content_type($PathInDir);
-          echo $MimeType."\n\n";
+          $IsImage = strstr($MimeType, "image");
+          $IsIsset = isset($IsImage);
+          if ($MimeType != "directory" && $IsImage != false)
+          {
+            // GET NAME //
+            $FileName = basename($PathInDir,".png");
+            // PUSH //
+            array_push($images, $PathInDir);
+            array_push($ImagesNames, $FileName);
           }
+          else{
+            continue;
+          }
+        }
       }
       closedir($handle);
+    }
+
+    // CREER SPRITE ET INSERER DEDANS 1-0-0 //
+    if ($options["Image"] != "My_New_Sprite" && $options["Stylesheet"] == "style" && $options["Padding"] == null)
+    {
+      $BaseWidth = 0;
+      $BaseHeight = 0;
+      for ($i = 0; $i < count($images); $i++)
+      {
+        $ImgDatas = getimagesize(($images[$i]));
+        $ImageWidth = $ImgDatas[0];
+        $ImageHeight = $ImgDatas[1];
+        $BaseWidth = $BaseWidth + $ImageWidth;
+        if ($BaseHeight < $ImageHeight)
+        {
+          $BaseHeight = $ImageHeight;
+        }
+      }
+      $ImgRessource = imagecreatetruecolor($BaseWidth ,$BaseHeight);
+      $black = imagecolorallocate($ImgRessource, 0, 0 ,0); 
+      imagecolortransparent($ImgRessource, $black);
+
+
+      $BaseWidth = 0;
+      $BaseHeight = 0;
+      for ($i = 0; $i < count($images); $i++)
+      {
+        $ImgDatas = getimagesize(($images[$i]));
+        $ImageWidth = $ImgDatas[0];
+        $ImageHeight = $ImgDatas[1];
+        $imagecreatefrompng = imagecreatefrompng($images[$i]);
+        imagecopymerge($ImgRessource, $imagecreatefrompng, $BaseWidth, 0, 0, 0, $ImageWidth, $ImageHeight, 100);
+        $BaseWidth = $BaseWidth + $ImageWidth;
+      }
+      $FINALPNG = imagepng($ImgRessource , "./sprites/".$options["Image"].".png");
+
+      // CREER FICHIER CSS //
+      $BaseWidth = 0;
+      $BaseHeight = 0;
+      $FinalPngICTP = imagecreatefrompng("./sprites/".$options["Image"].".png");
+      $FinalPngDatas = getimagesize("./sprites/".$options["Image"].".png");
+      $FirstScriptCSS = ".sprite{"."\n"."    " . "width:$FinalPngDatas[0]px;"."\n"."height:$FinalPngDatas[1]px;\n}\n\n";
+      file_put_contents("./stylesheets/".$options["Stylesheet"].".css", $FirstScriptCSS);
+      for ($i = 0; $i < count($ImagesNames); $i++)
+      {
+        $ImgDatas = getimagesize(($images[$i]));
+        $ImgName = $ImagesNames[$i];
+        $ImageWidth = $ImgDatas[0];
+        $ImageHeight = $ImgDatas[1];
+        if ($i === 0)
+        {
+          $BaseWidth = 0 - -($BaseWidth) + -($ImageWidth);
+          $Css = ".sprite-" .$ImgName. "{" . "\n" . "    " . "width:$ImageWidth"."px;\n"."height:$ImageHeight"."px;\n background-position:$BaseWidth"."px;\n}\n\n";
+          file_put_contents("./stylesheets/".$options["Stylesheet"].".css", $Css , FILE_APPEND);
+        }
+        elseif ($i > 0)
+        {
+          $BaseWidth = 0 + -($BaseWidth) + -($ImageWidth);
+          $Css = ".sprite-" .$ImgName. "{" . "\n" . "    " . "width:$ImageWidth"."px;\n"."height:$ImageHeight"."px;\n background-position:$BaseWidth"."px;\n}\n\n";
+          file_put_contents("./stylesheets/".$options["Stylesheet"].".css", $Css , FILE_APPEND);
+        }
+      }
+  };
+
+  // CREER SPRITE ET INSERER DEDANS 0-1-0 //
+  if ($options["Image"] == "My_New_Sprite" && $options["Stylesheet"] != "style" && $options["Padding"] == null)
+  {
+    $BaseWidth = 0;
+    $BaseHeight = 0;
+    for ($i = 0; $i < count($images); $i++)
+    {
+      $ImgDatas = getimagesize(($images[$i]));
+      $ImageWidth = $ImgDatas[0];
+      $ImageHeight = $ImgDatas[1];
+      $BaseWidth = $BaseWidth + $ImageWidth;
+      if ($BaseHeight < $ImageHeight)
+      {
+        $BaseHeight = $ImageHeight;
+      }
+    }
+    $ImgRessource = imagecreatetruecolor($BaseWidth ,$BaseHeight);
+    $black = imagecolorallocate($ImgRessource, 0, 0 ,0); 
+    imagecolortransparent($ImgRessource, $black);
+
+
+    $BaseWidth = 0;
+    $BaseHeight = 0;
+    for ($i = 0; $i < count($images); $i++)
+    {
+      $ImgDatas = getimagesize(($images[$i]));
+      $ImageWidth = $ImgDatas[0];
+      $ImageHeight = $ImgDatas[1];
+      $imagecreatefrompng = imagecreatefrompng($images[$i]);
+      imagecopymerge($ImgRessource, $imagecreatefrompng, $BaseWidth, 0, 0, 0, $ImageWidth, $ImageHeight, 100);
+      $BaseWidth = $BaseWidth + $ImageWidth;
+    }
+    $FINALPNG = imagepng($ImgRessource , "./sprites/".$options["Image"].".png");
+
+    // CREER FICHIER CSS //
+    $BaseWidth = 0;
+    $BaseHeight = 0;
+    $FinalPngICTP = imagecreatefrompng("./sprites/".$options["Image"].".png");
+    $FinalPngDatas = getimagesize("./sprites/".$options["Image"].".png");
+    $FirstScriptCSS = ".sprite{"."\n"."    " . "width:$FinalPngDatas[0]px;"."\n"."height:$FinalPngDatas[1]px;\n}\n\n";
+    file_put_contents("./stylesheets/".$options["Stylesheet"].".css", $FirstScriptCSS);
+    for ($i = 0; $i < count($ImagesNames); $i++)
+    {
+      $ImgDatas = getimagesize(($images[$i]));
+      $ImgName = $ImagesNames[$i];
+      $ImageWidth = $ImgDatas[0];
+      $ImageHeight = $ImgDatas[1];
+      if ($i === 0)
+      {
+        $BaseWidth = 0 - -($BaseWidth) + -($ImageWidth);
+        $Css = ".sprite-" .$ImgName. "{" . "\n" . "    " . "width:$ImageWidth"."px;\n"."height:$ImageHeight"."px;\n background-position:$BaseWidth"."px;\n}\n\n";
+        file_put_contents("./stylesheets/".$options["Stylesheet"].".css", $Css , FILE_APPEND);
+      }
+      elseif ($i > 0)
+      {
+        $BaseWidth = 0 + -($BaseWidth) + -($ImageWidth);
+        $Css = ".sprite-" .$ImgName. "{" . "\n" . "    " . "width:$ImageWidth"."px;\n"."height:$ImageHeight"."px;\n background-position:$BaseWidth"."px;\n}\n\n";
+        file_put_contents("./stylesheets/".$options["Stylesheet"].".css", $Css , FILE_APPEND);
+      }
+    }
+};
+
+// CREER SPRITE ET INSERER DEDANS 0-0-1 //
+if ($options["Image"] == "My_New_Sprite" && $options["Stylesheet"] == "style" && $options["Padding"] != null)
+{
+  $BaseWidth = 0;
+  $BaseHeight = 0;
+  for ($i = 0; $i < count($images); $i++)
+  {
+    $ImgDatas = getimagesize(($images[$i]));
+    $ImageWidth = $ImgDatas[0];
+    $ImageHeight = $ImgDatas[1];
+    $BaseWidth = $BaseWidth + $options["Padding"] + $ImageWidth;
+    if ($BaseHeight < $ImageHeight)
+    {
+      $BaseHeight = $ImageHeight;
+    }
   }
+  $ImgRessource = imagecreatetruecolor($BaseWidth ,$BaseHeight);
+  $black = imagecolorallocate($ImgRessource, 0, 0 ,0); 
+  imagecolortransparent($ImgRessource, $black);
+
+
+  $BaseWidth = 0;
+  $BaseHeight = 0;
+  for ($i = 0; $i < count($images); $i++)
+  {
+    $ImgDatas = getimagesize(($images[$i]));
+    $ImageWidth = $ImgDatas[0];
+    $ImageHeight = $ImgDatas[1];
+    $imagecreatefrompng = imagecreatefrompng($images[$i]);
+    imagecopymerge($ImgRessource, $imagecreatefrompng, $BaseWidth, 0, 0, 0, $ImageWidth, $ImageHeight, 100);
+    $BaseWidth = $BaseWidth + $options["Padding"] + $ImageWidth;
+  }
+  $FINALPNG = imagepng($ImgRessource , "./sprites/".$options["Image"].".png");
+
+  // CREER FICHIER CSS //
+  $BaseWidth = 0;
+  $BaseHeight = 0;
+  $FinalPngICTP = imagecreatefrompng("./sprites/".$options["Image"].".png");
+  $FinalPngDatas = getimagesize("./sprites/".$options["Image"].".png");
+  $FirstScriptCSS = ".sprite{"."\n"."    " . "width:$FinalPngDatas[0]px;"."\n"."height:$FinalPngDatas[1]px;\n}\n\n";
+  file_put_contents("./stylesheets/".$options["Stylesheet"].".css", $FirstScriptCSS);
+  for ($i = 0; $i < count($ImagesNames); $i++)
+  {
+    $ImgDatas = getimagesize(($images[$i]));
+    $ImgName = $ImagesNames[$i];
+    $ImageWidth = $ImgDatas[0];
+    $ImageHeight = $ImgDatas[1];
+    if ($i === 0)
+    {
+      $BaseWidth = 0 - -($BaseWidth) + -($ImageWidth);
+      $Css = ".sprite-" .$ImgName. "{" . "\n" . "    " . "width:$ImageWidth"."px;\n"."height:$ImageHeight"."px;\n background-position:$BaseWidth"."px;\n}\n\n";
+      file_put_contents("./stylesheets/".$options["Stylesheet"].".css", $Css , FILE_APPEND);
+    }
+    elseif ($i > 0)
+    {
+      $BaseWidth = 0 + -($options["Padding"]) - -($BaseWidth) + -($ImageWidth);
+      $Css = ".sprite-" .$ImgName. "{" . "\n" . "    " . "width:$ImageWidth"."px;\n"."height:$ImageHeight"."px;\n background-position:$BaseWidth"."px;\n}\n\n";
+      file_put_contents("./stylesheets/".$options["Stylesheet"].".css", $Css , FILE_APPEND);
+    }
+  }
+};
+
+    // CREER SPRITE ET INSERER DEDANS 1-1-0 //
+    if ($options["Image"] != "My_New_Sprite" && $options["Stylesheet"] != "style" && $options["Padding"] == null)
+    {
+      $BaseWidth = 0;
+      $BaseHeight = 0;
+      for ($i = 0; $i < count($images); $i++)
+      {
+        $ImgDatas = getimagesize(($images[$i]));
+        $ImageWidth = $ImgDatas[0];
+        $ImageHeight = $ImgDatas[1];
+        $BaseWidth = $BaseWidth + $ImageWidth;
+        if ($BaseHeight < $ImageHeight)
+        {
+          $BaseHeight = $ImageHeight;
+        }
+      }
+      $ImgRessource = imagecreatetruecolor($BaseWidth ,$BaseHeight);
+      $black = imagecolorallocate($ImgRessource, 0, 0 ,0); 
+      imagecolortransparent($ImgRessource, $black);
+
+
+      $BaseWidth = 0;
+      $BaseHeight = 0;
+      for ($i = 0; $i < count($images); $i++)
+      {
+        $ImgDatas = getimagesize(($images[$i]));
+        $ImageWidth = $ImgDatas[0];
+        $ImageHeight = $ImgDatas[1];
+        $imagecreatefrompng = imagecreatefrompng($images[$i]);
+        imagecopymerge($ImgRessource, $imagecreatefrompng, $BaseWidth, 0, 0, 0, $ImageWidth, $ImageHeight, 100);
+        $BaseWidth = $BaseWidth + $ImageWidth;
+      }
+      $FINALPNG = imagepng($ImgRessource , "./sprites/".$options["Image"].".png");
+
+      // CREER FICHIER CSS //
+      $BaseWidth = 0;
+      $BaseHeight = 0;
+      $FinalPngICTP = imagecreatefrompng("./sprites/".$options["Image"].".png");
+      $FinalPngDatas = getimagesize("./sprites/".$options["Image"].".png");
+      $FirstScriptCSS = ".sprite{"."\n"."    " . "width:$FinalPngDatas[0]px;"."\n"."height:$FinalPngDatas[1]px;\n}\n\n";
+      file_put_contents("./stylesheets/".$options["Stylesheet"].".css", $FirstScriptCSS);
+      for ($i = 0; $i < count($ImagesNames); $i++)
+      {
+        $ImgDatas = getimagesize(($images[$i]));
+        $ImgName = $ImagesNames[$i];
+        $ImageWidth = $ImgDatas[0];
+        $ImageHeight = $ImgDatas[1];
+        if ($i === 0)
+        {
+          $BaseWidth = 0 - -($BaseWidth) + -($ImageWidth);
+          $Css = ".sprite-" .$ImgName. "{" . "\n" . "    " . "width:$ImageWidth"."px;\n"."height:$ImageHeight"."px;\n background-position:$BaseWidth"."px;\n}\n\n";
+          file_put_contents("./stylesheets/".$options["Stylesheet"].".css", $Css , FILE_APPEND);
+        }
+        elseif ($i > 0)
+        {
+          $BaseWidth = 0 + -($BaseWidth) + -($ImageWidth);
+          $Css = ".sprite-" .$ImgName. "{" . "\n" . "    " . "width:$ImageWidth"."px;\n"."height:$ImageHeight"."px;\n background-position:$BaseWidth"."px;\n}\n\n";
+          file_put_contents("./stylesheets/".$options["Stylesheet"].".css", $Css , FILE_APPEND);
+        }
+      }
+  };
+
+    
+    // CREER SPRITE ET INSERER DEDANS 0-1-1 //
+    if ($options["Image"] == "My_New_Sprite" && $options["Stylesheet"] != "style" && $options["Padding"] != null)
+    {
+      $BaseWidth = 0;
+      $BaseHeight = 0;
+      for ($i = 0; $i < count($images); $i++)
+      {
+        $ImgDatas = getimagesize(($images[$i]));
+        $ImageWidth = $ImgDatas[0];
+        $ImageHeight = $ImgDatas[1];
+        $BaseWidth = $BaseWidth + $options["Padding"] + $ImageWidth;
+        if ($BaseHeight < $ImageHeight)
+        {
+          $BaseHeight = $ImageHeight;
+        }
+      }
+      $ImgRessource = imagecreatetruecolor($BaseWidth ,$BaseHeight);
+      $black = imagecolorallocate($ImgRessource, 0, 0 ,0); 
+      imagecolortransparent($ImgRessource, $black);
+
+
+      $BaseWidth = 0;
+      $BaseHeight = 0;
+      for ($i = 0; $i < count($images); $i++)
+      {
+        $ImgDatas = getimagesize(($images[$i]));
+        $ImageWidth = $ImgDatas[0];
+        $ImageHeight = $ImgDatas[1];
+        $imagecreatefrompng = imagecreatefrompng($images[$i]);
+        imagecopymerge($ImgRessource, $imagecreatefrompng, $BaseWidth, 0, 0, 0, $ImageWidth, $ImageHeight, 100);
+        $BaseWidth = $BaseWidth + $options["Padding"] + $ImageWidth;
+      }
+      $FINALPNG = imagepng($ImgRessource , "./sprites/".$options["Image"].".png");
+
+      // CREER FICHIER CSS //
+      $BaseWidth = 0;
+      $BaseHeight = 0;
+      $FinalPngICTP = imagecreatefrompng("./sprites/".$options["Image"].".png");
+      $FinalPngDatas = getimagesize("./sprites/".$options["Image"].".png");
+      $FirstScriptCSS = ".sprite{"."\n"."    " . "width:$FinalPngDatas[0]px;"."\n"."height:$FinalPngDatas[1]px;\n}\n\n";
+      file_put_contents("./stylesheets/".$options["Stylesheet"].".css", $FirstScriptCSS);
+      for ($i = 0; $i < count($ImagesNames); $i++)
+      {
+        $ImgDatas = getimagesize(($images[$i]));
+        $ImgName = $ImagesNames[$i];
+        $ImageWidth = $ImgDatas[0];
+        $ImageHeight = $ImgDatas[1];
+        if ($i === 0)
+        {
+          $BaseWidth = 0 - -($BaseWidth) + -($ImageWidth);
+          $Css = ".sprite-" .$ImgName. "{" . "\n" . "    " . "width:$ImageWidth"."px;\n"."height:$ImageHeight"."px;\n background-position:$BaseWidth"."px;\n}\n\n";
+          file_put_contents("./stylesheets/".$options["Stylesheet"].".css", $Css , FILE_APPEND);
+        }
+        elseif ($i > 0)
+        {
+          $BaseWidth = 0 + -($options["Padding"]) - -($BaseWidth) + -($ImageWidth);
+          $Css = ".sprite-" .$ImgName. "{" . "\n" . "    " . "width:$ImageWidth"."px;\n"."height:$ImageHeight"."px;\n background-position:$BaseWidth"."px;\n}\n\n";
+          file_put_contents("./stylesheets/".$options["Stylesheet"].".css", $Css , FILE_APPEND);
+        }
+      }
+  };
+
+  // CREER SPRITE ET INSERER DEDANS 1-0-1 //
+  if ($options["Image"] != "My_New_Sprite" && $options["Stylesheet"] == "style" && $options["Padding"] != null)
+  {
+    $BaseWidth = 0;
+    $BaseHeight = 0;
+    for ($i = 0; $i < count($images); $i++)
+    {
+      $ImgDatas = getimagesize(($images[$i]));
+      $ImageWidth = $ImgDatas[0];
+      $ImageHeight = $ImgDatas[1];
+      $BaseWidth = $BaseWidth + $options["Padding"] + $ImageWidth;
+      if ($BaseHeight < $ImageHeight)
+      {
+        $BaseHeight = $ImageHeight;
+      }
+    }
+    $ImgRessource = imagecreatetruecolor($BaseWidth ,$BaseHeight);
+    $black = imagecolorallocate($ImgRessource, 0, 0 ,0); 
+    imagecolortransparent($ImgRessource, $black);
+
+
+    $BaseWidth = 0;
+    $BaseHeight = 0;
+    for ($i = 0; $i < count($images); $i++)
+    {
+      $ImgDatas = getimagesize(($images[$i]));
+      $ImageWidth = $ImgDatas[0];
+      $ImageHeight = $ImgDatas[1];
+      $imagecreatefrompng = imagecreatefrompng($images[$i]);
+      imagecopymerge($ImgRessource, $imagecreatefrompng, $BaseWidth, 0, 0, 0, $ImageWidth, $ImageHeight, 100);
+      $BaseWidth = $BaseWidth + $options["Padding"] + $ImageWidth;
+    }
+    $FINALPNG = imagepng($ImgRessource , "./sprites/".$options["Image"].".png");
+
+    // CREER FICHIER CSS //
+    $BaseWidth = 0;
+    $BaseHeight = 0;
+    $FinalPngICTP = imagecreatefrompng("./sprites/".$options["Image"].".png");
+    $FinalPngDatas = getimagesize("./sprites/".$options["Image"].".png");
+    $FirstScriptCSS = ".sprite{"."\n"."    " . "width:$FinalPngDatas[0]px;"."\n"."height:$FinalPngDatas[1]px;\n}\n\n";
+    file_put_contents("./stylesheets/".$options["Stylesheet"].".css", $FirstScriptCSS);
+    for ($i = 0; $i < count($ImagesNames); $i++)
+    {
+      $ImgDatas = getimagesize(($images[$i]));
+      $ImgName = $ImagesNames[$i];
+      $ImageWidth = $ImgDatas[0];
+      $ImageHeight = $ImgDatas[1];
+      if ($i === 0)
+      {
+        $BaseWidth = 0 - -($BaseWidth) + -($ImageWidth);
+        $Css = ".sprite-" .$ImgName. "{" . "\n" . "    " . "width:$ImageWidth"."px;\n"."height:$ImageHeight"."px;\n background-position:$BaseWidth"."px;\n}\n\n";
+        file_put_contents("./stylesheets/".$options["Stylesheet"].".css", $Css , FILE_APPEND);
+      }
+      elseif ($i > 0)
+      {
+        $BaseWidth = 0 + -($options["Padding"]) - -($BaseWidth) + -($ImageWidth);
+        $Css = ".sprite-" .$ImgName. "{" . "\n" . "    " . "width:$ImageWidth"."px;\n"."height:$ImageHeight"."px;\n background-position:$BaseWidth"."px;\n}\n\n";
+        file_put_contents("./stylesheets/".$options["Stylesheet"].".css", $Css , FILE_APPEND);
+      }
+    }
+};
+
+  // CREER SPRITE ET INSERER DEDANS 1-1-1 //
+  if ($options["Image"] != "My_New_Sprite" && $options["Stylesheet"] != "style" && $options["Padding"] != null)
+  {
+    $BaseWidth = 0;
+    $BaseHeight = 0;
+    for ($i = 0; $i < count($images); $i++)
+    {
+      $ImgDatas = getimagesize(($images[$i]));
+      $ImageWidth = $ImgDatas[0];
+      $ImageHeight = $ImgDatas[1];
+      $BaseWidth = $BaseWidth + $options["Padding"] + $ImageWidth;
+      if ($BaseHeight < $ImageHeight)
+      {
+        $BaseHeight = $ImageHeight;
+      }
+    }
+    $ImgRessource = imagecreatetruecolor($BaseWidth ,$BaseHeight);
+    $black = imagecolorallocate($ImgRessource, 0, 0 ,0); 
+    imagecolortransparent($ImgRessource, $black);
+
+
+    $BaseWidth = 0;
+    $BaseHeight = 0;
+    for ($i = 0; $i < count($images); $i++)
+    {
+      $ImgDatas = getimagesize(($images[$i]));
+      $ImageWidth = $ImgDatas[0];
+      $ImageHeight = $ImgDatas[1];
+      $imagecreatefrompng = imagecreatefrompng($images[$i]);
+      imagecopymerge($ImgRessource, $imagecreatefrompng, $BaseWidth, 0, 0, 0, $ImageWidth, $ImageHeight, 100);
+      $BaseWidth = $BaseWidth + $options["Padding"] + $ImageWidth;
+    }
+    $FINALPNG = imagepng($ImgRessource , "./sprites/".$options["Image"].".png");
+
+    // CREER FICHIER CSS //
+    $BaseWidth = 0;
+    $BaseHeight = 0;
+    $FinalPngICTP = imagecreatefrompng("./sprites/".$options["Image"].".png");
+    $FinalPngDatas = getimagesize("./sprites/".$options["Image"].".png");
+    $FirstScriptCSS = ".sprite{"."\n"."    " . "width:$FinalPngDatas[0]px;"."\n"."height:$FinalPngDatas[1]px;\n}\n\n";
+    file_put_contents("./stylesheets/".$options["Stylesheet"].".css", $FirstScriptCSS);
+    for ($i = 0; $i < count($ImagesNames); $i++)
+    {
+      $ImgDatas = getimagesize(($images[$i]));
+      $ImgName = $ImagesNames[$i];
+      $ImageWidth = $ImgDatas[0];
+      $ImageHeight = $ImgDatas[1];
+      if ($i === 0)
+      {
+        $BaseWidth = 0 - -($BaseWidth) + -($ImageWidth);
+        $Css = ".sprite-" .$ImgName. "{" . "\n" . "    " . "width:$ImageWidth"."px;\n"."height:$ImageHeight"."px;\n background-position:$BaseWidth"."px;\n}\n\n";
+        file_put_contents("./stylesheets/".$options["Stylesheet"].".css", $Css , FILE_APPEND);
+      }
+      elseif ($i > 0)
+      {
+        $BaseWidth = 0 + -($options["Padding"]) - -($BaseWidth) + -($ImageWidth);
+        $Css = ".sprite-" .$ImgName. "{" . "\n" . "    " . "width:$ImageWidth"."px;\n"."height:$ImageHeight"."px;\n background-position:$BaseWidth"."px;\n}\n\n";
+        file_put_contents("./stylesheets/".$options["Stylesheet"].".css", $Css , FILE_APPEND);
+      }
+    }
+
+    echo "C'est bon ! Va voir les dossiers './sprites' et './stylesheets' !!";
   };
 
   function recursiveSprite($options){
     var_dump($options);
   };
-
+}
 CssGenerator();
